@@ -1,0 +1,1 @@
+pip install --no-cache-dir --force-reinstall -Iv -r requirements.txt
