@@ -6,31 +6,34 @@ import grpc
 def run():
     with grpc.insecure_channel('localhost:5274') as channel:
         stub = seminar_pb2_grpc.SeminarStub(channel)
-        print("Please type the RPC call number (1, 2, or 3):")
+        print("Escolha uma das opções abaixo:")
+        print("1 - Operação matemática:")
+        print("2 - Alterar string:")
+        print("3 - Alterar arquivo texto:")
         rpccall = input()
 
         if rpccall == "1":
-            numbera = int(input("Enter the first number: "))
-            numberb = int(input("Enter the second number: "))
-            operation = int(input("Enter the operation type (+, -, *, /): "))
+            numbera = int(input("Informe o primeiro número: "))
+            numberb = int(input("Informe o segundo número: "))
+            operation = int(input("Informe a operação (+, -, *, /): "))
             numberOperands = seminar_pb2.NumberOperands(first_op=numbera, second_op=numberb, op_type=operation)
             operationResult = stub.Calculate(numberOperands)
-            print(f"Operation result: {operationResult.result}")
+            print(f"Resultado: {operationResult.result}")
         
         elif rpccall == "2":
-            text = input("Enter the string to transform: ")
+            text = input("Informe a string: ")
             stringMessage = seminar_pb2.StringMessage(input=text)
             stringResult = stub.TransformString(stringMessage)
-            print(f"Transformed string: {stringResult.output}")
+            print(f"String alterada: {stringResult.output}")
         
         elif rpccall == "3":
-            text = input("Enter the content to process for file operation: ")
+            text = input("Informe o conteúdo do arquivo: ")
             fileOperationRequest = seminar_pb2.FileOperationRequest(content=text)
-            fileOperationResult = stub.FileOperationResult(fileOperationRequest)
-            print(f"File operation result: {fileOperationResult.result}")
+            fileOperationResult = stub.ModifyFile(fileOperationRequest)
+            #print(f"Resultado aquivo: {fileOperationResult.result}")
         
         else:
-            print("Invalid RPC call number.")
+            print("Opção inválida.")
 
 if __name__ == "__main__":
     run()
