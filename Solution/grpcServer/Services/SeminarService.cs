@@ -10,10 +10,8 @@ public class SeminarService : Seminar.SeminarBase{
         _logger = logger;
     }
 
-    /* Caso a opção 1 seja escolhida no cliente, os números e a operação informados, são recebidos
-       para que a operação matemática seja executada */
     public override Task<OperationResult> Calculate(NumberOperands request, ServerCallContext context){
-        int result = 0;
+        float result = 0.0;
         switch(request.OpType){
             case 1:
                 result = request.FirstOp + request.SecondOp;
@@ -28,7 +26,7 @@ public class SeminarService : Seminar.SeminarBase{
                 if(request.SecondOp != 0){
                     result = request.FirstOp / request.SecondOp;
                 }else{
-                    result = 0; 
+                    Console.WriteLine("Não é possível dividir por 0!");
                 }
                 break;
             default:
@@ -40,33 +38,27 @@ public class SeminarService : Seminar.SeminarBase{
         });
     }
 
-    /* Caso a opção 2 seja escolhida, a string informada pelo usuário é passada para ser convertida em
-        caracteres maiúsculos */
     public override Task<StringResult> TransformString(StringMessage request, ServerCallContext context){
         return Task.FromResult(new StringResult{
             Output = request.Input.ToUpper()
         });
     }
 
-    /* Caso a opção 3 seja escolhida, o conteúdo a ser inserido no arquivo texto é passado */
+
     public override Task<FileOperationResult> ModifyFile(FileOperationRequest request, ServerCallContext context){
         bool success;
-        string content = request.Content; // conteúdo passado pelo cliente
-
-        // Arquivo de destino
+        string content = request.Content;
         string relativePath = "../testfile.txt";
         string absolutePath = Path.GetFullPath(relativePath);
 
         try{
             File.WriteAllText(absolutePath, content);
-            success = true; // Se a operação for bem sucedida 
+            success = true;
         }catch(System.Exception){
-            success = false; // Se houver algum erro
-        }
-
-        // Resultado final (sucesso ou falha)
+            success = false;
+        } 
         return Task.FromResult(new FileOperationResult{
-            Success = success 
+            Success = success
         });
     }
 }

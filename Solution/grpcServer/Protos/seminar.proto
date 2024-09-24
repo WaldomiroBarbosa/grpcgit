@@ -7,14 +7,14 @@ package seminar;
 // Mensagens para operações numéricas
 message NumberOperands 
 {
-    int32 first_op = 1;
-    int32 second_op = 2;
+    float first_op = 1;
+    float second_op = 2;
     int32 op_type = 3; // Pode ser 1 para adição, 2 para subtração, etc.
 }
 
 message OperationResult 
 {
-    int32 result = 1;
+    float result = 1;
 }
 
 // Mensagens para manipulação de strings
