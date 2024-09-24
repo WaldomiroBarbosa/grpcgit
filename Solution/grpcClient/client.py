@@ -15,7 +15,7 @@ def run():
         if rpccall == "1":
             numbera = int(input("Informe o primeiro número: "))
             numberb = int(input("Informe o segundo número: "))
-            operation = int(input("Informe a operação (+, -, *, /): "))
+            operation = int(input("Informe a operação (1=+, 2=-, 3=*, 4=/): "))
             numberOperands = seminar_pb2.NumberOperands(first_op=numbera, second_op=numberb, op_type=operation)
             operationResult = stub.Calculate(numberOperands)
             print(f"Resultado: {operationResult.result}")
